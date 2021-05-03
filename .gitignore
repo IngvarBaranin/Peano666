@@ -1,3 +1,5 @@
 dataset/combined/
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
+models/
+notebooks/training_data_preprocessed.txt
