@@ -40,12 +40,12 @@ Initially, generating music using the trained model requires some input. We just
 
 ## 4. Evaluation
 
----
+## 5. Requirements
 
-### Requirements
-
-- Jupyter
+- Jupyter (or whatever you use to handle .ipynb files)
 - Music21 (pip install music21)
-- Selenium (pip install selenium with ChromeDriver 90.0.4430.24)
-- TensorFlow (pip install tensorflow)
+- Selenium* (pip install selenium, with ChromeDriver 90.0.4430.24)
+- TensorFlow 2 (pip install tensorflow)
+
+*If you want to scrape the dataset we used
 
