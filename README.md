@@ -91,13 +91,13 @@ We decided to evaluate the generator model(s) we created in both objective and s
 
 ### Objective evaluation
 
-For the objective evaluation we trained a model to classify the tracks as classical or nonclassical. We combined the dataset to train and test the model from the classical tracks dataset (that were also used for our LSTM and Markov models) and as the "nonclassical" tracks we generated 500 pieces using our Markov model. To ensure that the distribution of the MIDI length of the Markov model generated tracks was the same as the one of the classical tracks, we visually fitted a Log Normal Distribution with parameters $\mu=8.5$ and $\sigma=\sqrt{0.5}$. We tested the goodness of fit with the Cramer-Von Mises test and using the 95% confidence level we couldn't prove that the classical tracks weren't from said distribution. The MIDIs were then generated with lengths sampled from that distribution.
+For the objective evaluation we trained a model to classify the tracks as classical or nonclassical. We combined the dataset to train and test the model from the classical tracks dataset (that were also used for our LSTM and Markov models) and as the "nonclassical" tracks we generated 500 pieces using our Markov model. To ensure that the distribution of the MIDI length of the Markov model generated tracks was the same as the one of the classical tracks, we visually fitted a Log Normal Distribution with parameters mu=8.5 and sigma=sqrt(0.5). We tested the goodness of fit with the Cramer-Von Mises test and using the 95% confidence level we couldn't prove that the classical tracks weren't from said distribution. The MIDIs were then generated with lengths sampled from that distribution.
 
 Only tracks shorter than 10 000 MIDI elements were incorporated in the final dataset for the evaluation model, which meant that the final dataset consisted of 541 tracks (310 Markov generated and 231 classical tracks). The preprocessing steps of tokenization and building of the dictionary were done in a similar manner as for the LSTM model input.
 
 The evaluation model is a simple GRU model with one dropout layer (0.5) after the GRU layer and the model output is calculated using the sigmoid activation function. We opted for a relatively simple model due to the small dataset size.
 
-The model was trained with batch size 64 for 12 epochs and achieved accuracy of 98.15% and recall of 96.67%. We then generated 50 tracks with our LSTM generator model and predicted whether the track was classical using the model. The mean posterior probability of class 1(classical) was 0.62 and the median was 0.82. In total $32/50=64\%$ of the tracks were classified as classical music.
+The model was trained with batch size 64 for 12 epochs and achieved accuracy of 98.15% and recall of 96.67%. We then generated 50 tracks with our LSTM generator model and predicted whether the track was classical using the model. The mean posterior probability of class 1(classical) was 0.62 and the median was 0.82. In total 32/50=64% of the tracks were classified as classical music.
 
 ### Subjective evaluation
 
