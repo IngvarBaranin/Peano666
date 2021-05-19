@@ -38,6 +38,53 @@ Initially, generating music using the trained model requires some input. We just
 
 ## 3. Markov
 
+Three different MM based models were built and tried out 
+1. Markov model
+2. N-gram model
+3. N-gram model with Laplace smoothing and backoff
+
+**Data**: 50, 100 or 200 musical pieces.
+
+**Tokens**: `wait:0.25`; `77:0.25`. Left hand side represents the note and right hand side represents the duration.
+
+### Markov model generator
+
+Markov models are probabilistic models that assume that we can predict the probability of some future event by not looking too far into the past. 
+
+In our case `P(next note | previous note)`.
+
+In a sequence of notes, `wait:0.25 77:0.25 wait:0.25 70:0.25 74:0.25 X`, it means that `P(X|74:0.25)`.
+
+As anticipated, this model did not provide good results- very similar to random sequence of notes.
+
+###  N-gram model
+
+In general, it is a Markov model that takes account not only 1 but N past events in a sequence.
+
+In a sequence of notes: `wait:0.25 77:0.25 wait:0.25 70:0.25 74:0.25 57:0.5 X`, 4-gram means that `P(X|70:0.25 74:0.25 57:0.5)`.
+
+The transition probability matrix grew fast and become very sparse. That problem was dealt robustly in case of this model- sample as long as it results in an already existing n-gram. 
+
+This model proved to work best out of the three MM based models. The results were not random anymore but as the N grew, the results started to resemble the tracks from the corpus more and more.
+
+### Advanced N-gram model
+
+Everything is same as in N-gram model except the solution to the sparsity problem.
+
+The sparsity problem dealt with backoff and laplace smoothing known from the NLP theory.
+Backoff: 
+```
+while sampled n-gram not in current dictionary:
+	look for the n-1-gram from the one lower dictionary
+  ```
+It will always succeed as the bi-gram dictionary holds all the possible transition probabilities from one note to other. 
+
+The result is quite bad as the backoff throws in a lot of randomness. Although, the results can be considered somewhat original now. 
+
+### Further improvements
+
+Initially it was planned to try out hidden Markov model based generation as well, but unfortunately due to the time constraint, was not implemented.
+Also, more musical theory could be taken into account.
 ## 4. Evaluation
 
 ## 5. Requirements
