@@ -87,6 +87,26 @@ Initially it was planned to try out hidden Markov model based generation as well
 Also, more musical theory could be taken into account.
 ## 4. Evaluation
 
+We decided to evaluate the generator model(s) we created in both objective and subjective manner.
+
+### Objective evaluation
+
+For the objective evaluation we trained a model to classify the tracks as classical or nonclassical. We combined the dataset to train and test the model from the classical tracks dataset (that were also used for our LSTM and Markov models) and as the "nonclassical" tracks we generated 500 pieces using our Markov model. To ensure that the distribution of the MIDI length of the Markov model generated tracks was the same as the one of the classical tracks, we visually fitted a Log Normal Distribution with parameters $\mu=8.5$ and $\sigma=\sqrt{0.5}$. We tested the goodness of fit with the Cramer-Von Mises test and using the 95% confidence level we couldn't prove that the classical tracks weren't from said distribution. The MIDIs were then generated with lengths sampled from that distribution.
+
+Only tracks shorter than 10 000 MIDI elements were incorporated in the final dataset for the evaluation model, which meant that the final dataset consisted of 541 tracks (310 Markov generated and 231 classical tracks). The preprocessing steps of tokenization and building of the dictionary were done in a similar manner as for the LSTM model input.
+
+The evaluation model is a simple GRU model with one dropout layer (0.5) after the GRU layer and the model output is calculated using the sigmoid activation function. We opted for a relatively simple model due to the small dataset size.
+
+The model was trained with batch size 64 for 12 epochs and achieved accuracy of 98.15% and recall of 96.67%. We then generated 50 tracks with our LSTM generator model and predicted whether the track was classical using the model. The mean posterior probability of class 1(classical) was 0.62 and the median was 0.82. In total $32/50=64\%$ of the tracks were classified as classical music.
+
+### Subjective evaluation
+
+We also descided to evaluate the Markov and LSTM generated tracks using a test group. We put together a ten-part questionnaire with 3 tracks in each part: Markov- and LSTM-generated tracks and one classical piece from our original training set. The participants had to rank tracks in each part based on how computer-produced they felt each given track sounded (1. position for most authenticly classical track and 3. position for most generated sounding track). The tracks were randomly shuffled for each part.
+
+From the overall results we saw that unsurprisingly, the most assigned position for all classical tracks was the first, for LSTM-generated the second and for Markov-generated the third. When looking into the results in the scope of parts, we saw again that the classical track was ranked first with a overwhelming amount of votes in almost all of the parts. The part 9 stood out in that way as an oddity, because in that part, the classical track was only a slightly more popular candidate for the first position than the LSTM-generated track (4 vs 3 votes for 1st position).
+
+In conclusion it seems that the LSTM- and Markov-generated tracks didn't sound authentic enough for the listeners and so they managed to identify the authentic classical piece from the three tracks with ease. When comparing the two methods of generation, the Markov-generated tracks were found to be less authentic by the listeners when compared to LSTM tracks.
+
 ## 5. Requirements
 
 - Jupyter (or whatever you use to handle .ipynb files)
